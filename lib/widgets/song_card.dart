@@ -5,8 +5,10 @@ import 'animated_like_button.dart';
 
 class SongCard extends StatelessWidget {
   final Song song;
+  final bool isFavorite;
+  final VoidCallback? onFavoriteToggle;
 
-  const SongCard({super.key, required this.song});
+  const SongCard({super.key, required this.song, required this.isFavorite, this.onFavoriteToggle,});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class SongCard extends StatelessWidget {
         border: Border.all(color: Colors.white10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -57,7 +59,7 @@ class SongCard extends StatelessWidget {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.75),
+                            Colors.black.withValues(alpha: 0.75),
                           ],
                         ),
                       ),
@@ -73,7 +75,7 @@ class SongCard extends StatelessWidget {
                         vertical: 5,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
+                        color: Colors.white.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(color: Colors.white24),
                       ),
@@ -113,7 +115,10 @@ class SongCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const AnimatedLikeButton(),
+                  AnimatedLikeButton(
+                    isLiked: isFavorite,
+                    onTap: onFavoriteToggle,
+                  ),
                 ],
               ),
             ),

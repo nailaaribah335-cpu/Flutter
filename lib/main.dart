@@ -21,7 +21,7 @@ class VibeMusicApp extends StatelessWidget {
           surface: Color(0xFF151922),
         ),
       ),
-      home: const MainNavigation(),
+      home: MainNavigation(favoriteSongs: []),
     );
   }
 }

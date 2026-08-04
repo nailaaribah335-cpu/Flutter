@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/song_model.dart';
 import 'feed_page.dart';
 import 'profile_page.dart';
 import 'search_page.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  final List<Song> favoriteSongs;
+  final void Function(Song)? onFavoriteToggle;
+
+  const MainNavigation({
+    super.key,
+    required this.favoriteSongs,
+    this.onFavoriteToggle,
+  });
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -13,16 +21,34 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [
-    FeedPage(),
-    SearchPage(),
-    ProfilePage(),
-  ];
+  late List<Song> favoriteSongs;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteSongs = List.from(widget.favoriteSongs);
+  }
+
+  void toggleFavorite(Song song) {
+    setState(() {
+      if (favoriteSongs.contains(song)) {
+        favoriteSongs.remove(song);
+      } else {
+        favoriteSongs.add(song);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      FeedPage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
+      SearchPage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
+      ProfilePage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
+    ];
+
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _pages),
+      body: IndexedStack(index: _currentIndex, children: pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
