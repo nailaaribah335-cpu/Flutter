@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/song_model.dart';
 import '../widgets/song_card.dart';
 
-class FavoritePage extends StatelessWidget {
+class FavoritePage extends StatefulWidget {
   final List<Song> favoriteSongs;
   final void Function(Song)? onFavoriteToggle;
 
@@ -11,6 +11,27 @@ class FavoritePage extends StatelessWidget {
     required this.favoriteSongs,
     this.onFavoriteToggle,
   });
+
+  @override
+  State<FavoritePage> createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends State<FavoritePage> {
+  late List<Song> favoriteSongs;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteSongs = List.from(widget.favoriteSongs);
+  }
+
+  void removeFavorite(Song song) {
+    widget.onFavoriteToggle?.call(song);
+
+    setState(() {
+      favoriteSongs.remove(song);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +57,7 @@ class FavoritePage extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     'Belum ada lagu favorit',
-                    style: TextStyle(color: Colors.grey[400], fontSize: 16),
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                 ],
               ),
@@ -46,12 +67,13 @@ class FavoritePage extends StatelessWidget {
               itemCount: favoriteSongs.length,
               itemBuilder: (context, index) {
                 final song = favoriteSongs[index];
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: SongCard(
                     song: song,
                     isFavorite: true,
-                    onFavoriteToggle: () => onFavoriteToggle?.call(song),
+                    onFavoriteToggle: () => removeFavorite(song),
                   ),
                 );
               },
