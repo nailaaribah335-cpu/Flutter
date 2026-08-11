@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/song_model.dart';
+import '../providers/favorite_provider.dart';
 import '../widgets/song_card.dart';
 
-class FavoritePage extends StatefulWidget {
-  final List<Song> favoriteSongs;
-  final void Function(Song)? onFavoriteToggle;
+class FavoritePage extends StatelessWidget {
+  final List<Song> allSongs;
 
-  const FavoritePage({
-    super.key,
-    required this.favoriteSongs,
-    this.onFavoriteToggle,
-  });
-
-  @override
-  State<FavoritePage> createState() => _FavoritePageState();
-}
-
-class _FavoritePageState extends State<FavoritePage> {
-  late List<Song> favoriteSongs;
-
-  @override
-  void initState() {
-    super.initState();
-    favoriteSongs = List.from(widget.favoriteSongs);
-  }
-
-  void removeFavorite(Song song) {
-    widget.onFavoriteToggle?.call(song);
-
-    setState(() {
-      favoriteSongs.remove(song);
-    });
-  }
+  const FavoritePage({super.key, required this.allSongs});
 
   @override
   Widget build(BuildContext context) {
+    final favProvider = context.watch<FavoriteProvider>();
+
+    final favoriteSongs = allSongs
+        .where((song) => favProvider.isFavorite(song.id))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -57,7 +39,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   const SizedBox(height: 12),
                   Text(
                     'Belum ada lagu favorit',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                    style: TextStyle(color: Colors.grey[400], fontSize: 16),
                   ),
                 ],
               ),
@@ -67,14 +49,10 @@ class _FavoritePageState extends State<FavoritePage> {
               itemCount: favoriteSongs.length,
               itemBuilder: (context, index) {
                 final song = favoriteSongs[index];
-
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: SongCard(
-                    song: song,
-                    isFavorite: true,
-                    onFavoriteToggle: () => removeFavorite(song),
-                  ),
+
+                  child: SongCard(song: song),
                 );
               },
             ),

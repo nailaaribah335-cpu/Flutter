@@ -3,10 +3,7 @@ import '../models/song_model.dart';
 import '../widgets/song_card.dart';
 
 class SearchPage extends StatefulWidget {
-  final List<Song> favoriteSongs;
-  final void Function(Song)? onFavoriteToggle;
-
-  const SearchPage({super.key, required this.favoriteSongs, this.onFavoriteToggle});
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -81,8 +78,6 @@ class _SearchPageState extends State<SearchPage> {
                         final song = results[index];
                         return SongCard(
                           song: song,
-                          isFavorite: widget.favoriteSongs.contains(song),
-                          onFavoriteToggle: () => widget.onFavoriteToggle?.call(song),
                         );
                       },
                     ),

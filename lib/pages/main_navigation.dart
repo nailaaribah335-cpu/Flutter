@@ -5,14 +5,7 @@ import 'profile_page.dart';
 import 'search_page.dart';
 
 class MainNavigation extends StatefulWidget {
-  final List<Song> favoriteSongs;
-  final void Function(Song)? onFavoriteToggle;
-
-  const MainNavigation({
-    super.key,
-    required this.favoriteSongs,
-    this.onFavoriteToggle,
-  });
+  const MainNavigation({super.key});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -21,30 +14,12 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  late List<Song> favoriteSongs;
-
-  @override
-  void initState() {
-    super.initState();
-    favoriteSongs = List.from(widget.favoriteSongs);
-  }
-
-  void toggleFavorite(Song song) {
-    setState(() {
-      if (favoriteSongs.contains(song)) {
-        favoriteSongs.remove(song);
-      } else {
-        favoriteSongs.add(song);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      FeedPage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
-      SearchPage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
-      ProfilePage(favoriteSongs: favoriteSongs, onFavoriteToggle: toggleFavorite),
+      const FeedPage(),
+      const SearchPage(),
+      ProfilePage(allSongs: sampleSongs),
     ];
 
     return Scaffold(

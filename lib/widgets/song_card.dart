@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/favorite_provider.dart';
+import 'package:provider/provider.dart';
 import '../models/song_model.dart';
 import '../pages/detail_page.dart';
 import 'animated_like_button.dart';
 
 class SongCard extends StatelessWidget {
   final Song song;
-  final bool isFavorite;
-  final VoidCallback? onFavoriteToggle;
 
-  const SongCard({super.key, required this.song, required this.isFavorite, this.onFavoriteToggle,});
+  const SongCard({super.key, required this.song});
 
   @override
   Widget build(BuildContext context) {
+    final favProvider = context.watch<FavoriteProvider>();
+    final isFavorite = favProvider.isFavorite(song.id);
+    
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
@@ -117,7 +120,9 @@ class SongCard extends StatelessWidget {
                   ),
                   AnimatedLikeButton(
                     isLiked: isFavorite,
-                    onTap: onFavoriteToggle,
+                    onTap: () {
+                      context.read<FavoriteProvider>().toggleFavorite(song.id);
+                    },
                   ),
                 ],
               ),
