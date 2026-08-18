@@ -58,8 +58,8 @@ class FavoritePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailPage(
-                            songs: favoriteSongs,
-                            initialIndex: index,
+                            song: song,
+                            playlist: favoriteSongs,
                           ),
                         ),
                       );

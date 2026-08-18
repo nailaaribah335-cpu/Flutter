@@ -46,8 +46,8 @@ class SongCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DetailPage(
-                      songs: songs ?? [song],
-                      initialIndex: songIndex ?? 0,
+                      song: song,
+                      playlist: songs ?? [],
                     ),
                   ),
                 );

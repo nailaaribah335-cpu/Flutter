@@ -46,7 +46,7 @@ final List<Song> sampleSongs = [
     title: 'When I Was Your Man',
     artist: 'Bruno Mars',
     coverUrl: 'https://picsum.photos/id/1067/800/600',
-    tag: 'R&B / Soul',
+    tag: 'R&B',
     audioUrl: 'audio/Bruno Mars - When I Was Your Man.mp3',
   ),
   Song(
@@ -54,17 +54,17 @@ final List<Song> sampleSongs = [
     title: 'Story of My Life',
     artist: 'One Direction',
     coverUrl: 'https://picsum.photos/id/225/800/600',
-    tag: 'Pop / Rock',
+    tag: 'Rock',
     audioUrl: 'audio/One Direction - Story of My Life.mp3',
   ),
 ];
 
 final List<String> categories = [
   'All',
-  'Trending',
-  'Popular',
-  'Relax',
-  'Workout',
-  'Focus',
-  'Chill',
+  'Pop',
+  'R&B',
+  'Rock',
+  'Hip-Hop',
+  'Jazz',
+  'Electronic',
 ];

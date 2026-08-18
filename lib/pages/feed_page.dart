@@ -142,11 +142,11 @@ class _FeedPageState extends State<FeedPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPage(songs: songs, initialIndex: index),
+                              builder: (context) => DetailPage(song: song, playlist: songs),
                             ),
                           );
                         },
-                        child: SongCard(song: song),
+                        child: SongCard(song: song, songs: songs, songIndex: index),
                       );
                     },
                   ),
