@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/detail_page.dart';
 import '../models/song_model.dart';
 import '../widgets/song_card.dart';
 
@@ -13,9 +14,14 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage> {
   SortOption _sortOption = SortOption.defaultOrder;
+  String _selectedCategory = 'All';
 
-  List<Song> get _sortedSongs {
-    final songs = List<Song>.from(sampleSongs);
+  List<Song> get _filteredAndSortedSongs {
+    List<Song> songs = _selectedCategory == 'All'
+        ? List<Song>.from(sampleSongs)
+        : sampleSongs
+            .where((song) => song.tag.toLowerCase() == _selectedCategory.toLowerCase())
+            .toList();
     switch (_sortOption) {
       case SortOption.titleAZ:
         songs.sort((a, b) => a.title.compareTo(b.title));
@@ -37,7 +43,7 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final songs = _sortedSongs;
+    final songs = _filteredAndSortedSongs;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,18 +82,76 @@ class _FeedPageState extends State<FeedPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(bottom: 20),
-        itemCount: songs.length,
-        itemBuilder: (context, index) {
-          final song = songs[index];
+      body: Column(
+        children: [
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                final isSelected = _selectedCategory == category;
 
-          return SongCard(
-            song: song,
-            songs: songs,
-            songIndex: index,
-          );
-        },
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ChoiceChip(
+                    label: Text(category),
+                    selected: isSelected,
+                    selectedColor: const Color(0xFF6366F1),
+                    backgroundColor: const Color(0xFF151922),
+                    labelStyle: TextStyle(
+                      color: isSelected ? Colors.white : Colors.grey[400],
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _selectedCategory = category;
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          Expanded(
+            child: songs.isEmpty
+                ? Center(
+                    child: Text(
+                      'Tidak ada lagu untuk genre "$_selectedCategory"',
+                      style: TextStyle(color: Colors.grey[500]),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    itemCount: songs.length,
+                    itemBuilder: (context, index) {
+                      final song = songs[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(songs: songs, initialIndex: index),
+                            ),
+                          );
+                        },
+                        child: SongCard(song: song),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }

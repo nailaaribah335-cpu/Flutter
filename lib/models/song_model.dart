@@ -58,3 +58,13 @@ final List<Song> sampleSongs = [
     audioUrl: 'audio/One Direction - Story of My Life.mp3',
   ),
 ];
+
+final List<String> categories = [
+  'All',
+  'Trending',
+  'Popular',
+  'Relax',
+  'Workout',
+  'Focus',
+  'Chill',
+];
