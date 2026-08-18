@@ -7,8 +7,15 @@ import 'animated_like_button.dart';
 
 class SongCard extends StatelessWidget {
   final Song song;
+  final List<Song>? songs;
+  final int? songIndex;
 
-  const SongCard({super.key, required this.song});
+  const SongCard({
+    super.key,
+    required this.song,
+    this.songs,
+    this.songIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,10 @@ class SongCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailPage(song: song),
+                    builder: (context) => DetailPage(
+                      songs: songs ?? [song],
+                      initialIndex: songIndex ?? 0,
+                    ),
                   ),
                 );
               },

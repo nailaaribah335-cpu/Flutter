@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/splash_page.dart';
 import 'package:provider/provider.dart';
 import 'providers/favorite_provider.dart';
 import 'pages/main_navigation.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Music App',
       theme: ThemeData.dark(),
-      home: const MainNavigation(),
+      home: const SplashScreen()
     );
   }
 }

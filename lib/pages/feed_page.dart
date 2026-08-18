@@ -3,8 +3,8 @@ import '../models/song_model.dart';
 import '../widgets/song_card.dart';
 
 enum SortOption { defaultOrder, titleAZ, titleZA, artistAZ, artistZA }
-class FeedPage extends StatefulWidget {
 
+class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
 
   @override
@@ -82,11 +82,10 @@ class _FeedPageState extends State<FeedPage> {
         itemBuilder: (context, index) {
           final song = songs[index];
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: SongCard(
-              song: song,
-            ),
+          return SongCard(
+            song: song,
+            songs: songs,
+            songIndex: index,
           );
         },
       ),

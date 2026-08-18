@@ -78,6 +78,8 @@ class _SearchPageState extends State<SearchPage> {
                         final song = results[index];
                         return SongCard(
                           song: song,
+                          songs: results,
+                          songIndex: index,
                         );
                       },
                     ),

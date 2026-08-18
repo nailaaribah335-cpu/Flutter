@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/song_model.dart';
 import '../providers/favorite_provider.dart';
 import '../widgets/song_card.dart';
+import 'detail_page.dart';
 
 class FavoritePage extends StatelessWidget {
   final List<Song> allSongs;
@@ -51,8 +52,20 @@ class FavoritePage extends StatelessWidget {
                 final song = favoriteSongs[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-
-                  child: SongCard(song: song),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(
+                            songs: favoriteSongs,
+                            initialIndex: index,
+                          ),
+                        ),
+                      );
+                    },
+                    child: SongCard(song: song),
+                  ),
                 );
               },
             ),
