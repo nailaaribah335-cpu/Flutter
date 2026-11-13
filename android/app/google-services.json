@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601677151885",
+    "project_id": "audio-player-322ed",
+    "storage_bucket": "audio-player-322ed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601677151885:android:cd31ac51c330d147716cc4",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwFGQZuSOFbZZWEgqoitkalYM5dULP4JY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

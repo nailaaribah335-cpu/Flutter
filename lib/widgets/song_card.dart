@@ -7,14 +7,14 @@ import 'animated_like_button.dart';
 
 class SongCard extends StatelessWidget {
   final Song song;
-  final List<Song>? songs;
-  final int? songIndex;
+  final List<Song>? playlist;
+  final int? initialIndex;
 
   const SongCard({
     super.key,
     required this.song,
-    this.songs,
-    this.songIndex,
+    this.playlist,
+    this.initialIndex,
   });
 
   @override
@@ -47,7 +47,8 @@ class SongCard extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => DetailPage(
                       song: song,
-                      playlist: songs ?? [],
+                      playlist: playlist ?? [song],
+                      initialIndex: initialIndex ?? 0,
                     ),
                   ),
                 );
@@ -56,12 +57,7 @@ class SongCard extends StatelessWidget {
                 children: [
                   Hero(
                     tag: 'cover_${song.id}',
-                    child: Image.network(
-                      song.coverUrl,
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _buildCoverImage(song.coverUrl),
                   ),
 
                   Positioned.fill(
@@ -139,6 +135,41 @@ class SongCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildCoverImage(String url) {
+    final cleanUrl = url.trim();
+    if (cleanUrl.isEmpty) return _buildPlaceholder();
+    if (cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://')) {
+      return Image.network(
+        cleanUrl,
+        height: 200,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _buildPlaceholder(),
+      );
+    }
+    return Image.asset(
+      cleanUrl,
+      height: 200,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => _buildPlaceholder(),
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      color: const Color(0xFF252525),
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.music_note_rounded,
+        size: 60,
+        color: Colors.white38,
       ),
     );
   }
